@@ -3,17 +3,15 @@
 # essentials
 apt-get update
 apt-get upgrade
-apt install vim zsh tmux htop
+apt install vim zsh tmux htop stow fzf ranger tree
 
 # dotfiles
-git clone git@github.com:dni/.dotfiles ~
-git clone git@github.com:dni/scripts ~
-
-cd ~/.dofiles
+cd
+git clone git@github.com:dni/.dotfiles
+git clone git@github.com:dni/scripts
+cd .dotfiles
 chmod +x dotfiles
-./dotfiles install_vim
-./dotfiles install_zsh
-./dotfiles install_tmux
+./dotfiles install_server
 
 # swap
 fallocate -l 4G /swapfile
@@ -30,4 +28,4 @@ timedatectl set-timezone Europe/Vienna
 echo "Europe/Vienna" > /etc/timezone
 
 # change shell
-chsh zsh
+# chsh -s zsh root

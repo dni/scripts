@@ -6,7 +6,8 @@ apt-get update
 apt-get upgrade
 apt install -y wireguard
 ufw allow 61951/udp
-echo "Uncomment the following line. net.ipv4.ip_forward=1"
+echo "Uncomment line. net.ipv4.ip_forward=1, press key to continue"
+read
 vim /etc/sysctl.conf
 sysctl -p
 
@@ -57,6 +58,10 @@ EOF
 add_client client2
 add_client client3
 add_client client4
+add_client client5
+add_client client6
+add_client client7
+add_client client8
 
 tar -czf clients.tar.gz /etc/wireguard/client*
 echo "written ./clients.tar.gz"
