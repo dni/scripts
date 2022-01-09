@@ -1,5 +1,4 @@
 #!/bin/sh
-sudo su
 
 # essentials
 apt-get update
