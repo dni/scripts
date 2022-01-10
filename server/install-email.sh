@@ -3,7 +3,7 @@
 
 # validate inputs
 echo "insert domain root (domain.com):"
-read -r endpoint
+read -r domain
 
 echo "make sure dns of $domain and mail.$domain are pointing to this server and a reverse dns is configured for your IP"
 echo "on installation of Postfix, select "Internet Site" and put in TLD (without mail. before it)."
