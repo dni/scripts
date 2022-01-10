@@ -8,8 +8,7 @@ read -r domain
 echo "make sure dns of $domain and mail.$domain are pointing to this server and a reverse dns is configured for your IP"
 echo "on installation of Postfix, select "Internet Site" and put in TLD (without mail. before it)."
 echo "press enter to continue"
-read
-exit
+read -r ready
 
 #echo "clean previous attempts"
 #rm -rf /etc/dovecot /var/lib/dovecot
