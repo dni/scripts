@@ -31,7 +31,7 @@ certdir="/etc/letsencrypt/live/$maildomain"
 echo "Configuring Postfix's main.cf..."
 
 # https://github.com/LukeSmithxyz/emailwiz/issues/178
-postfix -e "header_checks = regexp:/etc/postfix/header_checks"
+postconf -e "header_checks = regexp:/etc/postfix/header_checks"
 echo "/^Received:.*/     IGNORE
 /^X-Originating-IP:/    IGNORE" >> /etc/postfix/header_checks
 
