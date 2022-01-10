@@ -2,13 +2,14 @@
 # mostly from https://github.com/LukeSmithxyz/emailwiz/blob/master/emailwiz.sh
 
 # validate inputs
-domain=$1
-[[ -z $domain ]] && echo missing argument domain && exit
+echo "insert domain root (domain.com):"
+read -r endpoint
 
 echo "make sure dns of $domain and mail.$domain are pointing to this server and a reverse dns is configured for your IP"
 echo "on installation of Postfix, select "Internet Site" and put in TLD (without mail. before it)."
 echo "press enter to continue"
 read
+exit
 
 #echo "clean previous attempts"
 #rm -rf /etc/dovecot /var/lib/dovecot
