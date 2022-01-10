@@ -30,6 +30,11 @@ certdir="/etc/letsencrypt/live/$maildomain"
 
 echo "Configuring Postfix's main.cf..."
 
+# https://github.com/LukeSmithxyz/emailwiz/issues/178
+postfix -e "header_checks = regexp:/etc/postfix/header_checks"
+echo "/^Received:.*/     IGNORE
+/^X-Originating-IP:/    IGNORE" >> /etc/postfix/header_checks
+
 # Change the cert/key files to the default locations of the Let's Encrypt cert/key
 postconf -e "smtpd_tls_key_file=$certdir/privkey.pem"
 postconf -e "smtpd_tls_cert_file=$certdir/fullchain.pem"
@@ -216,8 +221,7 @@ echo "*@$domain $subdom._domainkey.$domain" >> /etc/postfix/dkim/signingtable
 
 grep -q "127.0.0.1" /etc/postfix/dkim/trustedhosts 2>/dev/null ||
 	echo "127.0.0.1
-10.1.0.0/16
-1.2.3.4/24" >> /etc/postfix/dkim/trustedhosts
+10.1.0.0/16" >> /etc/postfix/dkim/trustedhosts
 
 # ...and source it from opendkim.conf
 grep -q "^KeyTable" /etc/opendkim.conf 2>/dev/null || echo "KeyTable file:/etc/postfix/dkim/keytable
