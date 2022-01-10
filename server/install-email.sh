@@ -274,7 +274,9 @@ $dkimentry
 
 $dmarcentry
 
-$spfentry"
+$spfentry
+
+"
 
 echo "use: useradd -m -G mail office; passwd office"
 echo "to add new user and password for office@$domain"
