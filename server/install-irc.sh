@@ -5,12 +5,18 @@ ufw allow 6697/tcp
 
 echo "enter domain for irc server"
 read -r domain
+
 certbot certonly --webroot --agree-tos --text --non-interactive --webroot-path /var/www/html -d $domain
 certs=/etc/letsencrypt/live/$domain
-certfile=$certs/fullchain.pem
-keyfile=$certs/privkey.pem
+certfile=/etc/inspircd/fullchain.pem
+keyfile=/etc/inspircd/privkey.pem
 dh2048=/etc/ssl/certs/dh2048.pem
 openssl dhparam -out $dh2048 2048
+
+cp $certs/privkey.pem $keyfile
+cp $certs/fullchain.pem $certfile
+cp /etc/ssl/certs/dh2048.pem $dh2048
+chown -R irc:irc /etc/inspircd
 
 echo "enter server name"
 read -r servername
@@ -19,23 +25,24 @@ read -r channelname
 echo "enter username for admin"
 read -r adminuser
 
-# <power diepass="$diepass" restartpass="$restartpass" pause="2">
 
 cat <<EOF > /etc/inspircd/inspircd.motd
-welcome to $name, join $channelname
+welcome to $servername, join $channelname
 EOF
 
 cat <<EOF > /etc/inspircd/inspircd.rules
 be nice ! :)
 EOF
 
+# <power diepass="$diepass" restartpass="$restartpass" pause="2">
+# <oper name="$user" password="$password" host="@localhost" type="NetAdmin">
 cat << EOF > /etc/inspircd/inspircd.conf
-<server name="$domain" description="$name" id="66F" network="Hostinghelden">
+<server name="$domain" description="$name" id="66F" network="$servername">
 <admin name="$adminuser" nick="$adminuser" email="$adminemail">
 <bind address="" port="6667" type="clients">
 <bind address="" port="6697" ssl="openssl" type="clients">
 <module name="m_sslmodes.so">
-<openssl certfile="$certfile" keyfile="$keyfile" dhfile="$dh2048" hash="sha2">
+<openssl certfile="$certfile" keyfile="$keyfile" dhfile="$dh2048">
 <connect allow="*" timeout="60" flood="20" threshold="1" pingfreq="120" sendq="262144" recvq="8192" localmax="3" globalmax="3">
 <class name="Shutdown" commands="DIE RESTART REHASH LOADMODULE UNLOADMODULE RELOAD">
 <class name="ServerLink" commands="CONNECT SQUIT RCONNECT MKPASSWD MKSHA256">
@@ -45,7 +52,6 @@ cat << EOF > /etc/inspircd/inspircd.conf
 <type name="NetAdmin" classes="OperChat BanControl HostCloak Shutdown ServerLink" host="netadmin.omega.org.za">
 <type name="GlobalOp" classes="OperChat BanControl HostCloak ServerLink" host="ircop.omega.org.za">
 <type name="Helper" classes="HostCloak" host="helper.omega.org.za">
-<oper name="$user" password="$password" host="@localhost" type="NetAdmin">
 <files motd="/etc/inspircd/inspircd.motd" rules="/etc/inspircd/inspircd.rules">
 <channels users="20" opers="60">
 <dns server="8.8.8.8" timeout="5">
