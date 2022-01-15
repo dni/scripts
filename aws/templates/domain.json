@@ -1,0 +1,14 @@
+{
+    "Comment": "Create a subdomain record",
+    "Changes": [{
+        "Action": "CREATE",
+        "ResourceRecordSet": {
+            "Name": "%domain%",
+            "Type": "CNAME",
+            "TTL": 300,
+            "ResourceRecords": [{
+                "Value": "%cname%"
+            }]
+        }
+    }]
+}

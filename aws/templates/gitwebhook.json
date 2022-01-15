@@ -1,0 +1,17 @@
+{
+    "name": "awsopsworks",
+    "type": "Repository",
+    "active": true,
+    "events": [
+        "push",
+        "deployment"
+    ],
+    "config": {
+        "app_id": "%appid%",
+        "aws_access_key_id": "%accesskey%",
+        "aws_secret_access_key": "%accesssecret%",
+        "branch_name": "master",
+        "endpoint_region": "eu-central-1",
+        "stack_id": "%stackid%"
+    }
+}
