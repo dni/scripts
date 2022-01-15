@@ -3,7 +3,9 @@
 # essentials
 apt-get update
 apt-get upgrade
-apt install vim zsh tmux htop stow fzf ranger tree
+apt install -y vim zsh tmux htop stow fzf ranger tree
+
+apt install -y apache2 imagemagick graphicsmagick curl zip dialog apt-utils
 
 # dotfiles
 cd
