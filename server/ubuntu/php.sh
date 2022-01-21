@@ -1,56 +1,51 @@
-username="magento2"
+username=$1
+if [ ! -z $username ] && [ ! "$username" = "typo3" ] && [ ! "$username" = "magento2" ]; then
+  echo "not a valid username: $username"
+  exit 1
+fi
+
+exit
+
+git_server="git.dnilabs.com"
 templates="~/scripts/server/templates"
-wwwdir="/var/www"
-efs_ip="172.31.26.179"
-mediadir="/var/www/media"
+php_version=7.4
 php_ini="/etc/php/${php_version}/apache2/php.ini"
 composer_path="/usr/local/bin/composer"
-php_version=8.1
-git_server="git.hostinghelden.at"
 
-useradd -G www-data $user
-# usermod -a -G www-data $username
+echo "enter username for deploy user"
+read -r username
+sleep 3
+
+useradd -G www-data $username
 mkdir -p /home/#{username}/.composer
-cp ~/scripts/server/templates/auth.json /home/$username/.composer/auth.json
+cp $templates/auth.json /home/$username/.composer/auth.json
 
 # TODO: ssh not functional atm
 mkdir -p /home/$username/.ssh
-
-cp ~/scripts/server/templates/private/gitkey /home/$username/.ssh/id_rsa
+cp $templates/private/gitkey /home/$username/.ssh/id_rsa
 chmod 600 /home/$username/.ssh/id_rsa
-
 echo "Host $git_server
   StrictHostKeyChecking no
   IdentityFile ~/.ssh/id_rsa" > /home/$username/.ssh/config
 chmod 600 /home/$username/.ssh/config
 
 chown -R $username /home/$username/
+chown -R $username:www-data /var/www
 
-
-mkdir -p $wwwdir
-chown -R $username:www-data $wwwdir
-
-echo "$username ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-# mount amazon efs disk
-apt-get install -y nfs-common
-mkdir -p $mediadir
-chown -R $username:www-data $mediadir
-mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $efs_ip:/ $mediadir
+# echo "$username ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # install custom repo for php
 add-apt-repository ppa:ondrej/apache2
 add-apt-repository ppa:ondrej/php
 apt-get update
 
-php_version=8.1
 apt-get install -y php${php_version} php${php_version}-dev php${php_version}-gd php${php_version}-mysqli php${php_version}-mbstring php${php_version}-soap php${php_version}-zip php${php_version}-xml php${php_version}-bcmath php${php_version}-curl php${php_version}-intl
 a2enmod php${php_version} rewrite headers expires ssl proxy proxy_http
 update-alternatives --set php /usr/bin/php${php_version}
 
 
 # apache blacklist
-cp ~/scripts/server/templates/blacklist.conf /etc/apache2/blacklist.conf
+cp $templates/blacklist.conf /etc/apache2/blacklist.conf
 echo 'ServerTokens Prod' >> /etc/apache2/apache2.conf
 echo 'ServerSignature Off' >> /etc/apache2/apache2.conf
 
@@ -62,13 +57,9 @@ mv composer.phar ${composer_path}
 apt install -y wkhtmltopdf xvfb
 
 # crontab script
-echo "TODO" > /srv/crontab.sh
+cp $templates/$username/crontab.sh /srv/crontab.sh
 chmod +x /srv/crontab.sh
-cron "configure cronjob" do
-  minute "*"
-  user "magento2"
-  command "/srv/crontab.sh"
-end
+crontab -u $username $templates/$username/crontab.txt
 
 # landing page
 rm -rf /var/www/html
