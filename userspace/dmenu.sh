@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-layout_dir="$DOTFILES"/.config/screenlayout
+layout_dir=~/.config/screenlayout
 
 dmenu_layouts() {
   cd "$layout_dir" || exit

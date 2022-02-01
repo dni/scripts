@@ -3,17 +3,13 @@
 # xinit hook
 xinit_hook() {
   sh /etc/X11/xinit/xinitrc.d/50-systemd-user.sh & # gnome keyring
-  sh ~/.config/screenlayout/dualscreen.sh &
+  ~/.config/screenlayout/dualscreen
   [ -e ~/.fehbg ] && sh ~/.fehbg & # background
   mousekeyboard & # mouse keyboard settings
-  jackd -R -d net -a 192.168.1.140 &
-  sleep 4
-  pactl load-module module-jack-sink &
 }
 
 xinit_die() {
   killall xinit
-  killall jackd
 }
 
 mousekeyboard() {

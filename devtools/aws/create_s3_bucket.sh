@@ -39,17 +39,19 @@ echo "created iam user $name"
 sed -i "s/%bucket%/$name/g" cloudfront.json
 cloudfrontRes=$(aws cloudfront create-distribution --distribution-config file://cloudfront.json)
 cloudfront=$( echo $cloudfrontRes | jq -r '.Distribution.DomainName' )
-cloudfrontid=$( echo $cloudfrontRes | jq -r '.Distribution.Id' )
+cloudfront_id=$( echo $cloudfrontRes | jq -r '.Distribution.Id' )
 
 echo "created cloudfront $name"
 
 # cleanup
 rm bucketpolicy.json cors.json cloudfront.json userpolicy.json
 
-echo $accesskey | pass insert hostinghelden/aws/s3/$name/accesskey -e > /dev/null
-echo $accesssecret | pass insert hostinghelden/aws/s3/$name/accesssecret -e > /dev/null
+echo $accesskey | pass insert aws/s3/$name/accesskey -e > /dev/null
+echo $accesssecret | pass insert aws/s3/$name/accesssecret -e > /dev/null
+echo $cloudfront | pass insert aws/cloudfront/$name/url -e > /dev/null
+echo $cloudfront_id | pass insert aws/cloudfront/$name/id -e > /dev/null
 
 echo "accesskey: $accesskey"
 echo "accesssecret: $accesssecret"
 echo "cloudfront_url: $cloudfront"
-echo "cloudfront_id: $cloudfrontid"
+echo "cloudfront_id: $cloudfront_id"
