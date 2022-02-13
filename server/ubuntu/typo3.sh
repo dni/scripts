@@ -8,9 +8,9 @@ username="typo3"
 
 git clone https://github.com/dni/scripts ~/scripts
 
-sh ~/scripts/server/install.sh
-sh ~/scripts/server/user.sh $username
-sh ~/scripts/server/php.sh $username
+sh ~/scripts/server/ubuntu/install.sh
+sh ~/scripts/server/ubuntu/user.sh $username
+sh ~/scripts/server/ubuntu/php.sh $username
 
 # critical css service
 git clone git@git.dnilabs.com:critical-css-service.git /srv/critical-css-service
