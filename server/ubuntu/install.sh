@@ -2,9 +2,9 @@
 
 # essentials
 apt-get update
-apt-get upgrade
-apt install -y htop stow tree
-apt install -y apache2 imagemagick graphicsmagick curl zip apt-utils
+apt-get upgrade -y
+apt install -y htop stow tree \
+  apache2 imagemagick graphicsmagick curl zip apt-utils
 
 # dotfiles
 cd
@@ -27,3 +27,7 @@ update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
 dpkg-reconfigure -f noninteractive tzdata
 timedatectl set-timezone Europe/Vienna
 echo "Europe/Vienna" > /etc/timezone
+
+# opsworks hosts
+touch /etc/aws/opsworks/skip-hosts-update
+echo '172.31.28.49 git.dnilabs.com' >> /etc/hosts
