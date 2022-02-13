@@ -7,7 +7,7 @@ apt install -y htop stow tree \
   apache2 imagemagick graphicsmagick curl zip apt-utils
 
 # dotfiles
-git clone git@github.com:dni/.dotfiles ~/.dotfiles
+git clone https://github.com/dni/.dotfiles ~/.dotfiles
 cd ~/.dotfiles
 chmod +x dotfiles
 ./dotfiles install_server
