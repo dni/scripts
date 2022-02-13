@@ -1,4 +1,6 @@
-apt install awscli mysql-client
+php_version=7.4
+
+apt install -y awscli mysql-client
 aws configure set preview.cloudfront true
 
 ## install yarn
@@ -33,14 +35,12 @@ LDFLAGS="-rdynamic" ./configure --with-features=huge \
 make
 make install
 
-apt install php7.4-dev php-pear php7.4-xdebug
-phpenmod -v 7.4 xdebug
+apt install php$php_version-dev php-pear php$php_version-xdebug
+phpenmod -v $php_version xdebug
 
-cat <<'EOF' >> /etc/php/7.4/apache2/php.ini
-zend_extension=xdebug.so
+echo "zend_extension=xdebug.so
 xdebug.mode = debug
-xdebug.start_with_request = yes
-EOF
+xdebug.start_with_request = yes" >> /etc/php/$php_version/apache2/php.ini
 
 service apache2 restart
 
