@@ -12,7 +12,6 @@ update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
 update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.6-config 1
 update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.8-config 2
-
 update-alternatives --config python3
 update-alternatives --config python3-config
 
