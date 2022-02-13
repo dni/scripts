@@ -1,15 +1,21 @@
 #!/bin/sh
-templates="~/scripts/server/templates"
-username="magento2"
+if [ -e /root/.setup_done ]; then
+  echo "setup already ran. delete /root/.setup_done to run it again"
+  exit 0
+fi
 
-sh ~/scripts/server/install.sh
-sh ~/scripts/server/user.sh $username
-sh ~/scripts/server/php.sh $username
+username="magento2"
+templates="~/scripts/server/templates/$username"
+
+sh ~/scripts/server/ubuntu.sh
+sh ~/scripts/server/ubuntu/user.sh $username
+sh ~/scripts/server/ubuntu/apache2.sh
+sh ~/scripts/server/ubuntu/php.sh
 
 # varnish
 apt-get install -y varnish
-cp $templates/$username/varnish.vcl /etc/varnish/default.vcl
-cp $templates/$username/varnish.default /etc/default/varnish
+cp $templates/varnish.vcl /etc/varnish/default.vcl
+cp $templates/varnish.default /etc/default/varnish
 sed -i "s/Listen 80.*/Listen 8080/" /etc/apache2/ports.conf
 sed -i -e "s/6081/80 -p feature=+esi_ignore_https/g" -e "s/256m/512m/g" /etc/systemd/system/multi-user.target.wants/varnish.service
 sed -i -e "s/6081/80 -p feature=+esi_ignore_https/g" -e "s/256m/512m/g" /lib/systemd/system/varnish.service

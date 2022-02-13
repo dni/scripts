@@ -5,10 +5,8 @@ if [ -e /root/.setup_done ]; then
 fi
 
 username="typo3"
-templates="~/scripts/server/templates/$username"
 
 apt install -y imagemagick graphicsmagick wkhtmltopdf xvfb
-
 git clone https://github.com/dni/scripts ~/scripts
 
 sh ~/scripts/server/ubuntu.sh
@@ -30,6 +28,7 @@ su - $username -c "cd /srv/critical-css-service/; npm i"
 su - $username -c "pm2 start -f index.js"
 
 # crontab script
+templates="~/scripts/server/templates/$username"
 cp $templates/crontab.sh /srv/crontab.sh
 chmod +x /srv/crontab.sh
 crontab -u $username $templates/crontab.txt
