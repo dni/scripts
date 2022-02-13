@@ -6,6 +6,8 @@ fi
 
 username="typo3"
 
+git clone git@github.com:dni/scripts ~/scripts
+
 sh ~/scripts/server/install.sh
 sh ~/scripts/server/user.sh $username
 sh ~/scripts/server/php.sh $username
