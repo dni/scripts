@@ -9,7 +9,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.lis
 apt-get update && apt-get install -y yarn
 
 ## python3.8 support and ubuntu magic
-apt install libncurses-dev python3.8 python3.8-dev
+apt install -y libncurses-dev python3.8 python3.8-dev
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
 update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.6-config 1
@@ -35,7 +35,7 @@ LDFLAGS="-rdynamic" ./configure --with-features=huge \
 make
 make install
 
-apt install php$php_version-dev php-pear php$php_version-xdebug
+apt install -y php$php_version-dev php-pear php$php_version-xdebug
 phpenmod -v $php_version xdebug
 
 echo "zend_extension=xdebug.so
