@@ -27,5 +27,5 @@ timedatectl set-timezone Europe/Vienna
 echo "Europe/Vienna" > /etc/timezone
 
 # opsworks hosts
+echo '172.31.53.159 git.dnilabs.com' >> /etc/hosts
 touch /etc/aws/opsworks/skip-hosts-update
-echo '172.31.28.49 git.dnilabs.com' >> /etc/hosts

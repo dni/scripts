@@ -1,7 +1,7 @@
 #!/bin/sh
-if [ -e /root/.setup_done]; then
+if [ -e /root/.setup_done ]; then
   echo "setup already ran. delete /root/.setup_done to run it again"
-  exit 1
+  exit 0
 fi
 
 username="typo3"
