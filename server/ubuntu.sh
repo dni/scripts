@@ -5,9 +5,11 @@ apt-get update
 apt-get upgrade -y
 apt-get install -y stow htop tree curl zip apt-utils zsh
 
-# dotfiles
-git clone https://github.com/dni/.dotfiles ~/.dotfiles
-cd ~/.dotfiles
+chsh root -s /bin/zsh
+
+# dotfiles for root user
+git clone https://github.com/dni/.dotfiles /root/.dotfiles
+cd /root/.dotfiles
 chmod +x dotfiles
 ./dotfiles install_server
 

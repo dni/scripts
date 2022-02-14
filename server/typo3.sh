@@ -33,4 +33,11 @@ cp $templates/crontab.sh /srv/crontab.sh
 chmod +x /srv/crontab.sh
 crontab -u $username $templates/crontab.txt
 
+# dotfiles for typo3 user
+chsh typo3 -s /bin/zsh
+git clone https://github.com/dni/.dotfiles /home/typo3/.dotfiles
+cd /home/typo3/.dotfiles
+chmod +x dotfiles
+./dotfiles install_server
+
 touch /root/.setup_done
