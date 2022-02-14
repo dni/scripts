@@ -25,11 +25,11 @@ npm i -g pm2 n > /dev/null
 n stable > /dev/null
 hash -r
 
-git clone git@git.dnilabs.com:critical-css-service.git /srv/critical-css-service
-chown $username -R /srv/critical-css-service/
-cd /srv/critical-css-service
-su - $username -c "npm i" > /dev/null
-su - $username -c "pm2 start -f index.js"
+cr_dir="/srv/critical-css-service"
+git clone git@git.dnilabs.com:critical-css-service.git $cr_dir
+chown $username -R $cr_dir
+su - $username -c "cd $cr_dir; npm i" > /dev/null
+su - $username -c "cd $cr_dir; pm2 start -f index.js"
 
 # crontab script
 templates="/root/scripts/server/templates/$username"
@@ -41,10 +41,11 @@ apt-get autoremove -y > /dev/null
 
 touch /root/.setup_done
 
-# dotfiles for typo3 user
-chsh typo3 -s /bin/zsh
-sudo su typo3
-git clone https://github.com/dni/.dotfiles /home/typo3/.dotfiles
-cd /home/typo3/.dotfiles
-chmod +x dotfiles
-./dotfiles install_server
+# dotfiles for $username
+d_dir="/home/$username/.dotfiles"
+chsh $username -s /bin/zsh
+git clone https://github.com/dni/.dotfiles $d_dir
+chown $username -R $d_dir
+chmod +x $d_dir/dotfiles
+su - $username -c "~/.dotfiles/dotfiles install_server"
+
