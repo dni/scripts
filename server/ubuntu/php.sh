@@ -7,6 +7,7 @@ add-apt-repository ppa:ondrej/php
 apt-get update
 
 apt-get install -y php${php_version} php${php_version}-dev php${php_version}-gd php${php_version}-mysqli php${php_version}-mbstring php${php_version}-soap php${php_version}-zip php${php_version}-xml php${php_version}-bcmath php${php_version}-curl php${php_version}-intl
+
 update-alternatives --set php /usr/bin/php${php_version}
 
 a2enmod php${php_version}

@@ -1,6 +1,6 @@
 php_version=7.4
 
-apt install -y awscli mysql-client
+apt-get install -y awscli mysql-client
 aws configure set preview.cloudfront true
 
 ## install yarn
@@ -10,13 +10,13 @@ apt-get update
 apt-get install -y yarn
 
 ## python3.8 support and ubuntu magic
-apt install -y libncurses-dev python3.8 python3.8-dev
+apt-get install -y libncurses-dev python3.8 python3.8-dev
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
-update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.6-config 1
-update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.8-config 2
-update-alternatives --config python3
-update-alternatives --config python3-config
+# update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.6-config 1
+update-alternatives --install /usr/bin/python3-config python3-config /usr/bin/python3.8-config 1
+update-alternatives --set python3 /usr/bin/python3.8
+update-alternatives --set python3-config /usr/bin/python3.8-config
 
 # compile vim with python3.8 support
 cd /tmp/
@@ -36,7 +36,12 @@ LDFLAGS="-rdynamic" ./configure --with-features=huge \
 make
 make install
 
-apt install -y php$php_version-dev php-pear php$php_version-xdebug
+echo ":VimspectorInstall vscode-php-debug --sudo"
+echo "for xcode debugging"
+
+update-alternatives --set python3 /usr/bin/python3.6
+
+apt-get install -y php$php_version-dev php-pear php$php_version-xdebug
 phpenmod -v $php_version xdebug
 
 echo "zend_extension=xdebug.so
@@ -44,6 +49,3 @@ xdebug.mode = debug
 xdebug.start_with_request = yes" >> /etc/php/$php_version/apache2/php.ini
 
 service apache2 restart
-
-echo ":VimspectorInstall vscode-php-debug --sudo"
-echo "for xcode debugging"

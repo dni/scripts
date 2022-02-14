@@ -1,5 +1,5 @@
 #!/bin/sh
-apt install -y apache2
+apt-get install -y apache2
 a2enmod rewrite headers expires ssl proxy proxy_http
 
 # seo
@@ -7,7 +7,7 @@ echo 'ServerTokens Prod' >> /etc/apache2/apache2.conf
 echo 'ServerSignature Off' >> /etc/apache2/apache2.conf
 
 # blacklist
-cp $templates/blacklist.conf /etc/apache2/blacklist.conf
+cp /root/scripts/server/templates/blacklist.conf /etc/apache2/blacklist.conf
 
 # landing page
 rm -rf /var/www/html

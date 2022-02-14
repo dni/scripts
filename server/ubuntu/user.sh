@@ -6,6 +6,7 @@ fi
 
 useradd -G www-data $username
 mkdir -p /home/#{username}/.composer
+mkdir -p /home/#{username}/.aws
 mkdir -p /home/$username/.ssh
 chown -R $username /home/$username/
 chown -R $username:www-data /var/www

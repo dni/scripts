@@ -3,7 +3,7 @@
 # essentials
 apt-get update
 apt-get upgrade -y
-apt install -y stow htop tree curl zip apt-utils
+apt-get install -y stow htop tree curl zip apt-utils
 
 # dotfiles
 git clone https://github.com/dni/.dotfiles ~/.dotfiles
