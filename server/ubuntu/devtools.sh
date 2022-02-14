@@ -1,6 +1,6 @@
 php_version=7.4
 
-apt-get install -y awscli mysql-client
+apt-get install -y awscli mysql-client > /dev/null
 aws configure set preview.cloudfront true
 
 ## install yarn
