@@ -14,7 +14,7 @@ count_ips() {
   [[ -z $1 ]] && echo "missing argument projectname" && return
   local file=/var/www/$1
   [[ -f $file ]] && echo git project does exist. && return
-  git clone git@git.hostinghelden.at:$1.git $file
+  git clone git@git.dnilabs.com:$1.git $file
   chown -R $(whoami):www-data $file
   chmod -R 775 $file
 }
