@@ -22,13 +22,13 @@ apt-get install -y npm nodejs libpangocairo-1.0-0 libx11-xcb1 libxcomposite1 lib
   libatk1.0-0 libgtk-3-0 > /dev/null
 
 npm i -g pm2 n > /dev/null
-n stable /dev/null
+n stable > /dev/null
 hash -r
 
 git clone git@git.dnilabs.com:critical-css-service.git /srv/critical-css-service
 chown $username -R /srv/critical-css-service/
 cd /srv/critical-css-service
-su - $username -c "npm i"
+su - $username -c "npm i" > /dev/null
 su - $username -c "pm2 start -f index.js"
 
 # crontab script
@@ -37,7 +37,7 @@ cp $templates/crontab.sh /srv/crontab.sh
 chmod +x /srv/crontab.sh
 crontab -u $username $templates/crontab.txt
 
-apt-get autoremove -y /dev/null
+apt-get autoremove -y > /dev/null
 
 touch /root/.setup_done
 
