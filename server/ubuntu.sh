@@ -3,7 +3,7 @@
 # essentials
 apt-get update
 apt-get upgrade -y
-apt-get install -y stow htop tree curl zip apt-utils
+apt-get install -y stow htop tree curl zip apt-utils zsh
 
 # dotfiles
 git clone https://github.com/dni/.dotfiles ~/.dotfiles
@@ -26,5 +26,7 @@ timedatectl set-timezone Europe/Vienna
 echo "Europe/Vienna" > /etc/timezone
 
 # opsworks hosts
-echo '172.31.53.159 git.dnilabs.com' >> /etc/hosts
 touch /etc/aws/opsworks/skip-hosts-update
+
+# internal subnet access to git
+echo '172.31.53.159 git.dnilabs.com' >> /etc/hosts
