@@ -1,5 +1,7 @@
 php_version=7.4
 
+export DEBIAN_FRONTEND=noninteractive
+
 apt-get install -y awscli mysql-client > /dev/null
 aws configure set preview.cloudfront true
 
@@ -34,9 +36,9 @@ LDFLAGS="-rdynamic" ./configure --with-features=huge \
   --prefix=/usr/local
 
 echo "make vim"
-make > /dev/null
+make &> /dev/null
 echo "make install vim"
-make install
+make install &> /dev/null
 
 echo ":VimspectorInstall vscode-php-debug --sudo"
 echo "for xcode debugging"

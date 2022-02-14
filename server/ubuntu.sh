@@ -1,12 +1,13 @@
 #!/bin/sh
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo "##### ubuntu.sh START #####"
 
 # essentials
 apt-get update > /dev/null
 apt-get upgrade -y > /dev/null
 apt-get install -y stow htop tree curl zip apt-utils zsh > /dev/null
-
 chsh root -s /bin/zsh
 
 # dotfiles for root user
