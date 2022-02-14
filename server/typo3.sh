@@ -6,13 +6,13 @@ fi
 
 username="typo3"
 
-apt-get install -y imagemagick graphicsmagick wkhtmltopdf xvfb
 git clone https://github.com/dni/scripts ~/scripts
-
 sh ~/scripts/server/ubuntu.sh
-sh ~/scripts/server/ubuntu/user.sh $username
 sh ~/scripts/server/ubuntu/apache2.sh
 sh ~/scripts/server/ubuntu/php.sh
+sh ~/scripts/server/ubuntu/user.sh $username
+
+apt-get install -y imagemagick graphicsmagick wkhtmltopdf xvfb
 
 # critical css service
 apt-get install -y npm nodejs libpangocairo-1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 \
