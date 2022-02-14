@@ -4,6 +4,8 @@ if [ -e /root/.setup_done ]; then
   exit 0
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+
 username="typo3"
 
 git clone https://github.com/dni/scripts ~/scripts
