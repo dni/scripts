@@ -1,5 +1,7 @@
 php_version=7.4
 
+echo "##### devtools.sh START #####"
+
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get install -y awscli mysql-client > /dev/null
@@ -53,3 +55,5 @@ xdebug.mode = debug
 xdebug.start_with_request = yes" >> /etc/php/$php_version/apache2/php.ini
 
 service apache2 restart
+
+echo "##### devtools.sh END #####"
