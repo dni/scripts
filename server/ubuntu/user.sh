@@ -4,6 +4,8 @@ if [ ! -z $username ] && [ ! "$username" = "typo3" ] && [ ! "$username" = "magen
   exit 1
 fi
 
+echo "##### user.sh START #####"
+
 useradd -G www-data $username
 mkdir -p /home/$username/.composer
 mkdir -p /home/$username/.aws
@@ -12,3 +14,5 @@ chown -R $username /home/$username/
 chown -R $username:www-data /var/www
 
 # echo "$username ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+echo "##### user.sh END #####"

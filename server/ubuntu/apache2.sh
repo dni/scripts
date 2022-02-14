@@ -1,5 +1,8 @@
 #!/bin/sh
-apt-get install -y apache2
+
+echo "##### apache2.sh START #####"
+
+apt-get install -y apache2 > /dev/null
 a2enmod rewrite headers expires ssl proxy proxy_http
 
 # seo
@@ -14,3 +17,4 @@ rm -rf /var/www/html
 git clone git@git.dnilabs.com:landing.git /var/www/html
 chown -R www-data:www-data /var/www/html
 
+echo "##### apache2.sh END #####"
