@@ -12,6 +12,7 @@ apt-get install -y php${php_version} php${php_version}-dev php${php_version}-gd 
 
 update-alternatives --set php /usr/bin/php${php_version}
 
+a2dismod php5
 a2enmod php${php_version}
 
 # install composer
