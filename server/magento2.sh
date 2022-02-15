@@ -4,9 +4,12 @@ if [ -e /root/.setup_done ]; then
   exit 0
 fi
 
+export DEBIAN_FRONTEND=noninteractive
+
 username="magento2"
 templates="/root/scripts/server/templates/$username"
 
+git clone https://github.com/dni/scripts ~/scripts
 sh ~/scripts/server/ubuntu.sh
 sh ~/scripts/server/ubuntu/apache2.sh
 sh ~/scripts/server/ubuntu/php.sh
@@ -31,5 +34,20 @@ service varnish restart
 # apt -y install elasticsearch
 # service elasticsearch start
 # systemctl enable elasticsearch
+
+# crontab script
+cp $templates/crontab.sh /srv/crontab.sh
+chmod +x /srv/crontab.sh
+crontab -u $username $templates/crontab.txt
+
+# dotfiles for $username
+d_dir="/home/$username/.dotfiles"
+chsh $username -s /bin/zsh
+git clone https://github.com/dni/.dotfiles $d_dir
+chown $username -R $d_dir
+chmod +x $d_dir/dotfiles
+su - $username -c "cd $d_dir; ./dotfiles install_server"
+
+apt-get autoremove -y > /dev/null
 
 touch /root/.setup_done
