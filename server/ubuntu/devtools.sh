@@ -4,7 +4,7 @@ echo "##### devtools.sh START #####"
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get install -y awscli mysql-client > /dev/null
+apt-get install -y awscli mysql-server mysql-client > /dev/null
 aws configure set preview.cloudfront true
 
 ## install yarn
