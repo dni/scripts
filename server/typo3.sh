@@ -28,7 +28,7 @@ hash -r
 cr_dir="/srv/critical-css-service"
 git clone git@git.dnilabs.com:critical-css-service.git $cr_dir
 chown $username -R $cr_dir
-su - $username -c "cd $cr_dir; npm i" > /dev/null
+su - $username -c "cd $cr_dir; npm i > /dev/null"
 su - $username -c "cd $cr_dir; pm2 start -f index.js"
 
 # crontab script
@@ -39,7 +39,6 @@ crontab -u $username $templates/crontab.txt
 
 apt-get autoremove -y > /dev/null
 
-touch /root/.setup_done
 
 # dotfiles for $username
 d_dir="/home/$username/.dotfiles"
@@ -47,5 +46,6 @@ chsh $username -s /bin/zsh
 git clone https://github.com/dni/.dotfiles $d_dir
 chown $username -R $d_dir
 chmod +x $d_dir/dotfiles
-su - $username -c "~/.dotfiles/dotfiles install_server"
+su - $username -c "cd $d_dir; ./dotfiles install_server"
 
+touch /root/.setup_done
