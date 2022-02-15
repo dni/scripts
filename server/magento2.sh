@@ -5,12 +5,12 @@ if [ -e /root/.setup_done ]; then
 fi
 
 username="magento2"
-templates="~/scripts/server/templates/$username"
+templates="/root/scripts/server/templates/$username"
 
 sh ~/scripts/server/ubuntu.sh
-sh ~/scripts/server/ubuntu/user.sh $username
 sh ~/scripts/server/ubuntu/apache2.sh
 sh ~/scripts/server/ubuntu/php.sh
+sh ~/scripts/server/ubuntu/user.sh $username
 
 # varnish
 apt-get install -y varnish
