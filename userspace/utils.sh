@@ -49,9 +49,10 @@ get_functions() {
 
 # populate ./bin/ with symlink to the magic run_function script
 create_binaries() {
-  rm "$DOTFILES"/bin/*
+  rm -rf "$SCRIPTS"/bin
+  mkdir "$SCRIPTS"/bin
   get_functions | while read -r x; do
-    ln -sf "$DOTFILES"/scripts/run_function "$DOTFILES"/bin/"$x"
+    ln -sf "$SCRIPTS"/run_function "$SCRIPTS"/bin/"$x"
   done
 }
 

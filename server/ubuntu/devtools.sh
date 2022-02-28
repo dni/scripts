@@ -12,7 +12,6 @@ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt-get update > /dev/null
 apt-get install -y yarn > /dev/null
-
 ## python3.8 support and ubuntu magic
 apt-get install -y libncurses-dev python3.8 python3.8-dev > /dev/null
 update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
