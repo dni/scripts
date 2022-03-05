@@ -34,6 +34,6 @@ timedatectl set-timezone Europe/Vienna
 touch /etc/aws/opsworks/skip-hosts-update
 
 # internal subnet access to git
-echo '172.31.53.159 git.dnilabs.com' >> /etc/hosts
+echo '172.31.11.72 git.dnilabs.com' >> /etc/hosts
 
 echo "##### ubuntu.sh END #####"
