@@ -5,7 +5,7 @@ if [ -z "$name" ]; then
   echo missing argument name
 fi
 
-templates="$HOME/scripts/aws/templates"
+templates="$HOME/scripts/devtools/aws/templates"
 cp $templates/bucketpolicy.json $templates/cors.json $templates/cloudfront.json $templates/userpolicy.json .
 
 # create s3 bucket
