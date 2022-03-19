@@ -1,1 +1,1 @@
-* * * * * /srv/crontab.sh
+* * * * * /usr/bin/flock -n /var/www/.cron.flag -c "/srv/crontab.sh"

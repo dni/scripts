@@ -8,11 +8,13 @@ export DEBIAN_FRONTEND=noninteractive
 
 username="magento2"
 templates="/root/scripts/server/templates/$username"
+php_version=7.4
 
 git clone https://github.com/dni/scripts ~/scripts
 sh ~/scripts/server/ubuntu.sh
 sh ~/scripts/server/ubuntu/apache2.sh
-sh ~/scripts/server/ubuntu/php.sh
+sh ~/scripts/server/ubuntu/php.sh $php_version
+sh ~/scripts/server/templates/magento2/php-ini.sh $php_version
 sh ~/scripts/server/ubuntu/user.sh $username
 
 # varnish

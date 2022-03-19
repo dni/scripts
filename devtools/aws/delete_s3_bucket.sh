@@ -8,6 +8,7 @@ fi
 
 has_bucket=$(aws s3api list-buckets --region eu-central-1 | jq -r '. | .Buckets | map( . | select(.Name == "'$name'")) | .[].Name' )
 if [ ! -z "$has_bucket" ]; then
+  aws s3 rm --recursive s3://$name/
   aws s3api delete-bucket --region eu-central-1 --bucket $name || exit
   echo "deleted bucket $name"
 else
