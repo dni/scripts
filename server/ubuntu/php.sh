@@ -1,7 +1,7 @@
 php_version=$1
 composer_path="/usr/local/bin/composer"
 
-if [ ! -z $php_version ]; then
+if [ -z $php_version ]; then
   echo "no php version specified"
   exit 1
 fi

@@ -1,5 +1,5 @@
 username=$1
-if [ ! -z $username ] && [ ! "$username" = "typo3" ] && [ ! "$username" = "magento2" ]; then
+if [ -z $username ] && [ ! "$username" = "typo3" ] && [ ! "$username" = "magento2" ]; then
   echo "not a valid username: $username"
   exit 1
 fi
