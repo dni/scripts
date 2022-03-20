@@ -5,11 +5,11 @@ if [ -z $php_version ]; then
 fi
 
 php_ini=/etc/php/$php_version/apache2/php.ini
-sed -i $php_ini
+sed -i $php_ini \
   -e '/date.timezone/c\date.timezone = "Europe/Vienna"' \
   -e "/memory_limit/c\memory_limit = 1G" \
   -e "/realpath_cache_ttl/c\realpath_cache_ttl = 7200" \
-  -e "/realpath_cache_size/c\realpath_cache_size = 10M"
+  -e "/realpath_cache_size/c\realpath_cache_size = 10M" \
   -e "/opcache.enable/c\opcache.enable=1" \
   -e "/opcache.enable_cli/c\opcache.enable_cli=1" \
   -e "/opcache.save_comments/c\opcache.save_comments=1" \
@@ -18,7 +18,7 @@ sed -i $php_ini
   -e "/opcache.consistency_checks/c\opcache.consistency_checks=0" \
   -e "/opcache.validate_timestamps/c\opcache.validate_timestamps=0"
 
-cat <<EOF > $php_ini
+cat <<EOF >> $php_ini
 apc.enabled = 1
 apc.shm_size=256M
 ;apc.mmap_file_mask=/srv/apc.shm.XXXXXX
