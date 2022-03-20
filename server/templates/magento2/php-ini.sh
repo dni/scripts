@@ -10,8 +10,8 @@ sed -i $php_ini \
   -e "/memory_limit/c\memory_limit = 1G" \
   -e "/realpath_cache_ttl/c\realpath_cache_ttl = 7200" \
   -e "/realpath_cache_size/c\realpath_cache_size = 10M" \
-  -e "/opcache.enable/c\opcache.enable=1" \
-  -e "/opcache.enable_cli/c\opcache.enable_cli=1" \
+  -e "/opcache.enable_cli=/c\opcache.enable_cli=1" \
+  -e "/opcache.enable=/c\opcache.enable=1" \
   -e "/opcache.save_comments/c\opcache.save_comments=1" \
   -e "/opcache.memory_consumption/c\opcache.memory_consumption=512" \
   -e "/opcache.max_accelerated_files/c\opcache.max_accelerated_files=60000" \
