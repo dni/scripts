@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "$(hostname)" = "prod1" ]
+if [ "$(hostname)" = "typo3-prod1" ]
 then
   for f in $(ls /var/www/); do
     if [ "$f" = "html" ]
