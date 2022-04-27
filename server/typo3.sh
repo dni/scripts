@@ -7,11 +7,13 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 
 username="typo3"
+php_version=7.4
 
 git clone https://github.com/dni/scripts ~/scripts
 sh ~/scripts/server/ubuntu.sh
 sh ~/scripts/server/ubuntu/apache2.sh
-sh ~/scripts/server/ubuntu/php.sh
+sh ~/scripts/server/ubuntu/php.sh $php_version
+sh ~/scripts/server/templates/typo3/php-ini.sh $php_version
 sh ~/scripts/server/ubuntu/user.sh $username
 
 apt-get install -y imagemagick graphicsmagick wkhtmltopdf xvfb > /dev/null
