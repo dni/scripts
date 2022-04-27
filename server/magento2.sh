@@ -52,4 +52,7 @@ su - $username -c "cd $d_dir; ./dotfiles install_server"
 
 apt-get autoremove -y > /dev/null
 
+# turn off git safe directories
+su - $username -c "git config --global --add safe.directory \*"
+
 touch /root/.setup_done

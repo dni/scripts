@@ -50,4 +50,8 @@ chown $username -R $d_dir
 chmod +x $d_dir/dotfiles
 su - $username -c "cd $d_dir; ./dotfiles install_server"
 
+# turn off git safe directories
+su - $username -c "git config --global --add safe.directory \*"
+
+
 touch /root/.setup_done

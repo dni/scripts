@@ -36,7 +36,4 @@ touch /etc/aws/opsworks/skip-hosts-update
 # internal subnet access to git
 echo '172.31.11.72 git.dnilabs.com' >> /etc/hosts
 
-# turn off git safe directories
-git config --global --add safe.directory \*
-
 echo "##### ubuntu.sh END #####"
