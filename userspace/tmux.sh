@@ -33,10 +33,16 @@ tmux_env_lnbits_boltz() {
 
   sudo systemctl start docker
   docker start regtest
-  echo "waiting 5s for docker regtest to come up..."
+  echo "waiting 15s for docker regtest to come up..."
   sleep 15
 
+  # clean boltz.db
   rm $user_dir/.boltz/boltz.db
+  # clean lnbits boltz swaps db
+  rm $lnbits_dir/data/ext_boltz.sqlite
+  sqlite3 $lnbits_dir/data/database.sqlite3 "delete from dbversions where db='boltz';"
+
+  # change mempools btccore password to new regtest env
   rpc_password=$(cat $cookie | cut -d ":" -f 2)
   sed -i -e "/CORE_RPC_PASSWORD/ s/\"[^\"][^\"]*\"/\"$rpc_password\"/" $mempool_dir/docker/docker-compose.yml
 
@@ -47,6 +53,7 @@ tmux_env_lnbits_boltz() {
   tmux new-window  -t lnbits:4 -n electrs   "cd $repo_dir/electrs/; $electrs_cmd; zsh"
   tmux new-window  -t lnbits:5 -n mempool   "cd $mempool_dir/docker/; docker-compose up; zsh"
 
+  echo "waiting 15s for docker mempool to come up..."
   sleep 15
   docker network connect mempool regtest 2> /dev/null
   docker network connect mempool docker-api-1 2> /dev/null
