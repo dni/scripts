@@ -37,11 +37,10 @@ tmux_env_lnbits_boltz() {
   sleep 15
 
   rm $user_dir/.boltz/boltz.db
-
   rpc_password=$(cat $cookie | cut -d ":" -f 2)
   sed -i -e "/CORE_RPC_PASSWORD/ s/\"[^\"][^\"]*\"/\"$rpc_password\"/" $mempool_dir/docker/docker-compose.yml
 
-  tmux new-session -s lnbits   -n cli    -d "source $boltz_dir/docker/docker-scripts.sh; cd $lnbits_dir; zsh"
+  tmux new-session -s lnbits   -n cli    -d "cd $boltz_dir; source docker/docker-scripts.sh; cd $lnbits_dir; zsh"
   tmux new-window  -t lnbits:1 -n editor    "cd $lnbits_dir; vim .;zsh"
   tmux new-window  -t lnbits:2 -n lnbits    "cd $lnbits_dir; $lnbits_cmd; zsh"
   tmux new-window  -t lnbits:3 -n boltz     "cd $boltz_dir; npm run dev; zsh"
