@@ -24,12 +24,12 @@ tmux_env() {
 tmux_env_lnbits_boltz() {
   user_dir="/home/dni"
   repo_dir="$user_dir/repos"
-  boltz_dir="$repo_dir/boltz-backend"
   mempool_dir="$repo_dir/mempool"
   lnbits_dir="$repo_dir/stream/lnbits-legend-boltz/"
-  lnbits_cmd="./venv/bin/uvicorn lnbits.__main__:app --port 5000 --reload"
-  electrs_cmd="./target/release/electrs --daemon-dir $mempool_dir/electrs --network regtest --cookie-file $cookie --electrum-rpc-addr 0.0.0.0:50003"
+  boltz_dir="$repo_dir/boltz-backend"
   cookie="$boltz_dir/docker/regtest/data/core/cookies/.bitcoin-cookie"
+  electrs_cmd="./target/release/electrs --daemon-dir $mempool_dir/electrs --network regtest --cookie-file $cookie --electrum-rpc-addr 0.0.0.0:50003"
+  lnbits_cmd="./venv/bin/uvicorn lnbits.__main__:app --port 5000 --reload"
 
   sudo systemctl start docker
   docker start regtest
@@ -42,7 +42,7 @@ tmux_env_lnbits_boltz() {
   rm $lnbits_dir/data/ext_boltz.sqlite
   sqlite3 $lnbits_dir/data/database.sqlite3 "delete from dbversions where db='boltz';"
 
-  # change mempools btccore password to new regtest env
+  # change mempool.space btccore password to new regtest env, they dont use cookies
   rpc_password=$(cat $cookie | cut -d ":" -f 2)
   sed -i -e "/CORE_RPC_PASSWORD/ s/\"[^\"][^\"]*\"/\"$rpc_password\"/" $mempool_dir/docker/docker-compose.yml
 
