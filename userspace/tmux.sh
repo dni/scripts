@@ -30,7 +30,8 @@ tmux_env_lnbits_boltz() {
   cookie="$boltz_dir/docker/regtest/data/core/cookies/.bitcoin-cookie"
   electrs_cmd="./target/release/electrs --daemon-dir $mempool_dir/electrs --network regtest --cookie-file $cookie --electrum-rpc-addr 0.0.0.0:50003"
   lnbits_cmd="./venv/bin/uvicorn lnbits.__main__:app --port 5000 --reload"
-  mempool_clean="mysql -h $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-db-1) -u root -padmin -e 'drop database mempool; create database mempool;'"
+  # removed volumes from docker-compose.yaml
+  # mempool_clean="cd $mempool_dir; rm -rf data/* rm -rf mysql/data/*"
 
   # clean docker regtest from boltz
   sudo systemctl start docker
@@ -55,16 +56,23 @@ tmux_env_lnbits_boltz() {
   rpc_password=$(cat $cookie | cut -d ":" -f 2)
   sed -i -e "/CORE_RPC_PASSWORD/ s/\"[^\"][^\"]*\"/\"$rpc_password\"/" $mempool_dir/docker/docker-compose.yml
 
-  tmux new-session -s lnbits   -n cli    -d "cd $boltz_dir; zsh; source docker/docker-scripts.sh; cd $lnbits_dir; bitcoin-cli-sim -generate 3; echo 'hellp'"
+  cd $boltz_dir
+  source docker/docker-scripts.sh
+
+  tmux new-session -s lnbits   -n cli    -d "zsh"
   tmux new-window  -t lnbits:1 -n editor    "cd $lnbits_dir; vim .; zsh"
   tmux new-window  -t lnbits:2 -n lnbits    "cd $lnbits_dir; $lnbits_cmd; zsh"
   tmux new-window  -t lnbits:3 -n boltz     "cd $boltz_dir; npm run dev; zsh"
-  tmux new-window  -t lnbits:4 -n electrs   "cd $repo_dir/electrs/; $electrs_cmd; zsh"
-  tmux new-window  -t lnbits:5 -n mempool   "cd $mempool_dir/docker/; docker-compose up; sleep 15; $mempool_clean; zsh"
+  tmux new-window  -t lnbits:4 -n electrs   "cd $repo_dir/electrs; rm -rf db/regtest; $electrs_cmd; zsh"
+  tmux new-window  -t lnbits:5 -n mempool   "cd $mempool_dir/docker/; docker-compose up; zsh"
 
   echo "waiting 15s for docker mempool to come up..."
   sleep 15
   docker network connect mempool regtest 2> /dev/null
   docker network connect mempool docker-api-1 2> /dev/null
+
+  # mining 3 blocks, to get electrs going
+  bitcoin-cli-sim -generate 3
+
   tmux ls
 }
