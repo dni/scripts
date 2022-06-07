@@ -30,28 +30,37 @@ tmux_env_lnbits_boltz() {
   cookie="$boltz_dir/docker/regtest/data/core/cookies/.bitcoin-cookie"
   electrs_cmd="./target/release/electrs --daemon-dir $mempool_dir/electrs --network regtest --cookie-file $cookie --electrum-rpc-addr 0.0.0.0:50003"
   lnbits_cmd="./venv/bin/uvicorn lnbits.__main__:app --port 5000 --reload"
+  mempool_clean="mysql -h $(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' docker-db-1) -u root -padmin -e 'drop database mempool; create database mempool;'"
 
+  # clean docker regtest from boltz
   sudo systemctl start docker
-  docker start regtest
+  docker stop regtest
+  docker rm regtest
+  docker stop geth
+  docker rm geth
+  cd $boltz_dir
+  npm run docker:start
+
   echo "waiting 15s for docker regtest to come up..."
   sleep 15
+
 
   # clean boltz.db
   rm $user_dir/.boltz/boltz.db
   # clean lnbits boltz swaps db
-  rm $lnbits_dir/data/ext_boltz.sqlite
+  rm $lnbits_dir/data/ext_boltz.sqlite3
   sqlite3 $lnbits_dir/data/database.sqlite3 "delete from dbversions where db='boltz';"
 
   # change mempool.space btccore password to new regtest env, they dont use cookies
   rpc_password=$(cat $cookie | cut -d ":" -f 2)
   sed -i -e "/CORE_RPC_PASSWORD/ s/\"[^\"][^\"]*\"/\"$rpc_password\"/" $mempool_dir/docker/docker-compose.yml
 
-  tmux new-session -s lnbits   -n cli    -d "cd $boltz_dir; source docker/docker-scripts.sh; cd $lnbits_dir; zsh"
-  tmux new-window  -t lnbits:1 -n editor    "cd $lnbits_dir; vim .;zsh"
+  tmux new-session -s lnbits   -n cli    -d "cd $boltz_dir; zsh; source docker/docker-scripts.sh; cd $lnbits_dir; bitcoin-cli-sim -generate 3; echo 'hellp'"
+  tmux new-window  -t lnbits:1 -n editor    "cd $lnbits_dir; vim .; zsh"
   tmux new-window  -t lnbits:2 -n lnbits    "cd $lnbits_dir; $lnbits_cmd; zsh"
   tmux new-window  -t lnbits:3 -n boltz     "cd $boltz_dir; npm run dev; zsh"
   tmux new-window  -t lnbits:4 -n electrs   "cd $repo_dir/electrs/; $electrs_cmd; zsh"
-  tmux new-window  -t lnbits:5 -n mempool   "cd $mempool_dir/docker/; docker-compose up; zsh"
+  tmux new-window  -t lnbits:5 -n mempool   "cd $mempool_dir/docker/; docker-compose up; sleep 15; $mempool_clean; zsh"
 
   echo "waiting 15s for docker mempool to come up..."
   sleep 15
