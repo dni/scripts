@@ -25,7 +25,7 @@ tmux_env_lnbits_boltz() {
   user_dir="/home/dni"
   repo_dir="$user_dir/repos"
   mempool_dir="$repo_dir/mempool"
-  lnbits_dir="$repo_dir/stream/lnbits-legend-boltz/"
+  lnbits_dir="$repo_dir/stream/lnbits-legend-boltz"
   boltz_dir="$repo_dir/boltz-backend"
   cookie="$boltz_dir/docker/regtest/data/core/cookies/.bitcoin-cookie"
   electrs_cmd="./target/release/electrs --daemon-dir $mempool_dir/electrs --network regtest --cookie-file $cookie --electrum-rpc-addr 0.0.0.0:50003"
