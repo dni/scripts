@@ -7,7 +7,7 @@ fi
 php_ini=/etc/php/$php_version/apache2/php.ini
 sed -i $php_ini \
   -e '/date.timezone/c\date.timezone = "Europe/Vienna"' \
-  -e "/memory_limit/c\memory_limit = 1G" \
+  -e "/memory_limit/c\memory_limit = 512M" \
   -e "/realpath_cache_ttl/c\realpath_cache_ttl = 7200" \
   -e "/realpath_cache_size/c\realpath_cache_size = 10M" \
   -e "/opcache.enable_cli=/c\opcache.enable_cli=1" \
