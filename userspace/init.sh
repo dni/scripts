@@ -6,6 +6,7 @@ xinit_hook() {
   ~/.config/screenlayout/dualscreen
   [ -e ~/.fehbg ] && sh ~/.fehbg & # background
   mousekeyboard & # mouse keyboard settings
+  gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 }
 
 xinit_die() {
