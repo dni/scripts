@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 get_sinks(){
-  echo $(pamixer --list-sink | grep "^[0-9]" | awk '{print $1}')
+  echo $(pamixer --list-sinks | grep "^[0-9]" | awk '{print $1}')
 }
 
 volume_command(){

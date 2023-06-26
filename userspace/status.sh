@@ -11,18 +11,18 @@ status_update() {
 
   TEMP="$(($(cat /sys/class/thermal/thermal_zone0/temp) / 1000))C"
   AVAIL=$(df -h --output=avail | head -n4 | tail -n1)
-  MSG=" ($UPDATES) | ♪ $VOL |  $TEMP |  $BTC | $AVAIL |  $DATE |  $TIME "
+
+  if acpi -a | grep off-line > /dev/null
+  then
+    BAT="Bat. $(acpi -b | awk '{ print $4  }' | tr -d ',')"
+  else
+    BAT="charging $(acpi -b | awk '{ print $4 }' | tr -d ',')"
+  fi
+
+  MSG=" ($BAT) | ♪ $VOL |  $TEMP |  $BTC | $AVAIL |  $DATE |  $TIME "
 
   xsetroot -name "$MSG"
   # xsetroot -name " ($UPDATES) | $EXTIP | ♪ $VOL |  $TEMP |  $BTC | $AVAIL |  $DATE |  $TIME "
-
-  #if acpi -a | grep off-line > /dev/null
-  #then
-  #  BAT="Bat. $(acpi -b | awk '{ print $4 " " $5 }' | tr -d ',')"
-  #  xsetroot -name "$IP $BAT $VOL $TEMP $TIME"
-  #else
-  #  xsetroot -name "$EXTIP/$IP $VOL $TEMP $TIME"
-  #fi
 
 }
 

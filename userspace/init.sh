@@ -7,6 +7,7 @@ xinit_hook() {
   [ -e ~/.fehbg ] && sh ~/.fehbg & # background
   mousekeyboard & # mouse keyboard settings
   gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+  gsettings set org.gnome.desktop.interface gtk-theme Adwaita-dark
 }
 
 xinit_die() {
