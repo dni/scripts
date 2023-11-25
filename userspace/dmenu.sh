@@ -40,3 +40,21 @@ dmenu_otp() {
   [[ -n $password ]] || exit
   pass otp show -c "$otp_dir"/"$password" 2>/dev/null
 }
+
+dmenu_bolt11() {
+    clipboard=$(xclip -selection clipboard -o)
+    prefix=$(echo "$clipboard" | cut -c 1-2 | tr '[:upper:]' '[:lower:]')
+    if [[ "$prefix" != "ln" ]]; then
+        notify-send "not a lightning invoice"
+        exit 1
+    fi
+    decoded=$(bolt11 decode "$clipboard")
+    [[ -z "$decoded" ]] && notify-send "decoding bolt11 failed" && exit 1
+    selected=$(echo "$decoded" | jq -r | dmenu -l 30 || exit 1)
+    [[ -z "$selected" ]] && exit 1
+    if [[ "$selected" == "{"  ]]; then
+        echo $decoded | jq -r | xclip -selection clipboard
+    else
+        echo $selected | xclip -selection clipboard
+    fi
+}
