@@ -18,7 +18,6 @@ mousekeyboard() {
   xinput --set-prop "Razer Razer DeathAdder" "libinput Left Handed Enabled" 1
   xinput --set-prop "Razer Razer DeathAdder" "libinput Accel Profile Enabled" 0, 0
   xset r rate 200 40
-  setxkbmap de
   xmodmap -e "keysym Caps_Lock = Escape"
   xmodmap -e "clear lock"
   numlockx

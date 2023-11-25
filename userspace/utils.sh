@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+
 build_st() {
   cd ~/.config
   git clone https://git.suckless.org/st
@@ -12,7 +13,7 @@ build_st() {
   patch -Np1 -i st-anysize-0.8.4.diff
   wget https://st.suckless.org/patches/alpha/st-alpha-0.8.2.diff
   patch -Np1 -i st-alpha-0.8.2.diff
-  sed -i -e "s/Liberation Mono:pixelsize=12/FuraCode Nerd Font:pixelsize=16/" config.def.h
+  # sed -i -e "s/Liberation Mono:pixelsize=12/FuraCode Nerd Font:pixelsize=16/" config.def.h
   sudo make clean install
 }
 
@@ -70,8 +71,8 @@ screenshot() {
 upload() {
   [ -n "$1" ] || echo "$1" doesnt exist.
   [ -n "$1" ] || return
-  aws s3 cp "$1" s3://dnilabs-hostinghelden/upload/
-  echo "https://d261tqllhzwogc.cloudfront.net/upload/$1"
+  aws s3 cp "$1" s3://dnilabs-typo3/upload/
+  echo "https://dky9uwup6at7e.cloudfront.net/upload/$1"
 }
 uploadtrack() {
   [ -n "$1" ] || echo "$1" doesnt exist.
