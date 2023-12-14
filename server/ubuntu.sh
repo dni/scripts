@@ -17,7 +17,7 @@ chmod +x dotfiles
 ./dotfiles install_server
 
 # swap
-fallocate -l 4G /swapfile
+fallocate -l 2G /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
@@ -25,13 +25,10 @@ echo "/swapfile    none    swap    sw    0   0" >> /etc/fstab
 
 # datetime
 echo "Europe/Vienna" > /etc/timezone
-locale-gen de_DE.UTF-8
-update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
 dpkg-reconfigure -f noninteractive tzdata
 timedatectl set-timezone Europe/Vienna
-
-# opsworks hosts
-touch /etc/aws/opsworks/skip-hosts-update
+#locale-gen de_DE.UTF-8
+#update-locale LANG=de_DE.UTF-8 LC_MESSAGES=POSIX
 
 # internal subnet access to git
 echo '172.31.11.72 git.dnilabs.com' >> /etc/hosts
